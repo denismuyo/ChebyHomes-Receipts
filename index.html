@@ -199,8 +199,6 @@ body {
 /* ============================================================
    THE RECEIPT
    Fixed 794px so preview == PDF (A4 @ 96 dpi)
-   FIX: reduced padding so full content fits in A4 height.
-        page-break-inside: avoid prevents mid-element splitting.
    ============================================================ */
 .receipt {
   background: var(--white);
@@ -208,9 +206,9 @@ body {
   color: var(--ink);
   width: 794px;
   min-width: 794px;
-  padding: 40px 48px 0;        /* ← FIX: was 48px 56px */
+  padding: 40px 48px 0;
   position: relative;
-  page-break-inside: avoid;    /* ← FIX: added */
+  page-break-inside: avoid;
 }
 
 .r-topbar {
@@ -231,13 +229,6 @@ body {
 }
 .lh-left { display: flex; align-items: flex-start; gap: 14px; }
 
-/*
-  ================================================================
-  LOGO IMAGE TAG
-  Replace src="logo.png" with your actual logo file path.
-  e.g. src="assets/cheby-logo.png"  or  src="/images/logo.png"
-  ================================================================
-*/
 .lh-logo-img {
   width: 90px;
   height: 90px;
@@ -246,7 +237,6 @@ body {
   border-radius: 10px;
   display: block;
 }
-/* SVG fallback (shown when logo file not found) */
 .lh-logo-svg {
   width: 90px;
   height: 90px;
@@ -390,14 +380,6 @@ body {
 .sig-line { width: 160px; height: 1px; background: rgba(26,26,46,0.22); margin-bottom: 7px; }
 .sig-lbl { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 
-/*
-  ================================================================
-  STAMP IMAGE TAG
-  Replace src="stamp.png" with your actual stamp file path.
-  e.g. src="assets/cheby-stamp.png"  or  src="/images/stamp.png"
-  Recommended: circular PNG with transparent background, ~200×200px
-  ================================================================
-*/
 .stamp-img {
   width: 90px;
   height: 90px;
@@ -406,33 +388,12 @@ body {
   display: block;
   justify-self: end;
 }
-/* Fallback circle shown when stamp file not found 
-.stamp-fallback {
-  width: 90px;
-  height: 90px;
-  border: 2px dashed rgba(27,58,107,0.22);
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-.stamp-fallback span {
-  font-size: 0.5rem;
-  color: var(--blue-deep);
-  text-align: center;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  line-height: 1.7;
-  opacity: 0.5;
-}
-*/ 
-/* --- FOOTER ---
-   FIX: margin/padding updated to match new 48px horizontal receipt padding
-   ---------------------------------------------------------------- */
+
+/* --- FOOTER --- */
 .r-footer {
   background: var(--blue-deep);
-  margin: 0 -48px;             /* ← FIX: was -56px */
-  padding: 22px 48px;          /* ← FIX: was 22px 56px */
+  margin: 0 -48px;
+  padding: 22px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -484,6 +445,11 @@ body {
       <label>Phone Number</label>
       <input type="text" id="guestPhone" placeholder="+254 7XX XXX XXX" oninput="update()" />
     </div>
+    <!-- ADDED: ID / Passport Field -->
+    <div class="field">
+      <label>ID / Passport Number</label>
+      <input type="text" id="guestId" placeholder="e.g. 12345678" oninput="update()" />
+    </div>
 
     <div class="form-sec-title">Booking Details</div>
     <div class="field">
@@ -502,15 +468,20 @@ body {
     </div>
 
     <div class="form-sec-title">Payment</div>
+    <!-- REPLACED: Rate per Night instead of manual amount -->
     <div class="field">
-      <label>Amount Paid (KES)</label>
-      <input type="number" id="amountPaid" placeholder="e.g. 5500" oninput="update()" />
+      <label>Rate per Night (KES)</label>
+      <input type="number" id="ratePerNight" placeholder="e.g. 3500" oninput="update()" />
     </div>
     <div class="field">
       <label>Payment Method</label>
+      <!-- EXPANDED: Payment method options -->
       <select id="paymentMethod" onchange="update()">
         <option value="M-Pesa">M-Pesa</option>
         <option value="Cash">Cash</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+        <option value="Card (Visa/Mastercard)">Card (Visa/Mastercard)</option>
+        <option value="PayPal">PayPal</option>
       </select>
     </div>
 
@@ -539,7 +510,6 @@ body {
   <div class="preview-panel">
     <div class="preview-lbl">Live Preview</div>
 
-    <!-- Horizontal scroll on small screens -->
     <div class="receipt-scroll">
       <div class="receipt" id="receiptEl">
 
@@ -548,12 +518,6 @@ body {
         <!-- LETTERHEAD -->
         <div class="lh">
           <div class="lh-left">
-
-            <!--
-              ════════════════════════════════════════════════════════
-              LOGO — set src to your logo file, e.g. src="logo.png"
-              ════════════════════════════════════════════════════════
-            -->
             <img
               id="logoImg"
               class="lh-logo-img"
@@ -561,7 +525,6 @@ body {
               alt="Cheby Homes Logo"
               onerror="this.style.display='none'; document.getElementById('logoSvg').style.display='block';"
             />
-            <!-- SVG placeholder shown when logo not found -->
             <svg id="logoSvg" class="lh-logo-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="90" height="90" rx="12" fill="#1B3A6B"/>
               <polygon points="30,11 11,27 11,50 49,50 49,27" fill="#2D5DA6"/>
@@ -598,6 +561,8 @@ body {
             <div class="sec-lbl">Guest Details</div>
             <div class="data-item"><div class="dl">Full Name</div><div class="dv" id="r-name">—</div></div>
             <div class="data-item"><div class="dl">Phone</div><div class="dv" id="r-phone">—</div></div>
+            <!-- ADDED: ID / Passport display in receipt -->
+            <div class="data-item"><div class="dl">ID / Passport</div><div class="dv" id="r-id">—</div></div>
           </div>
           <div>
             <div class="sec-lbl">Booking Details</div>
@@ -616,11 +581,12 @@ body {
           <div class="dv" id="r-nights">—</div>
         </div>
 
-        <!-- AMOUNT -->
+        <!-- AMOUNT — description now auto-calculated -->
         <div class="amount-block">
           <div>
             <div class="amt-desc-lbl">Description</div>
-            <div class="amt-desc-val">Accommodation Fee</div>
+            <!-- UPDATED: Dynamic description -->
+            <div class="amt-desc-val" id="r-desc">Accommodation Fee</div>
           </div>
           <div class="amt-right">
             <span class="amt-currency">KES</span>
@@ -642,16 +608,18 @@ body {
         <!-- AUTHORIZATION -->
         <div class="auth-row">
           <div>
-            <div class="sig-line"></div>
-            <div class="sig-lbl">Authorized Signature</div>
+            <div class="signature-block">
+              <img
+                src="signature.png"
+                alt="Authorized Signature"
+                class="signature-img"
+                onerror="this.style.display='none'; document.getElementById('sigLine').style.display='block';"
+              />
+              <div id="sigLine" class="sig-line"></div>
+              <div class="sig-lbl">Authorized Signature</div>
+            </div>
           </div>
 
-          <!--
-            ════════════════════════════════════════════════════════
-            STAMP — set src to your stamp file, e.g. src="stamp.png"
-            Recommended: PNG with transparent bg, roughly 200×200px
-            ════════════════════════════════════════════════════════
-          -->
           <img
             id="stampImg"
             class="stamp-img"
@@ -659,8 +627,6 @@ body {
             alt="Official Stamp"
             onerror="this.style.display='none'; document.getElementById('stampFb').style.display='flex';"
           />
-          
-
         </div>
 
         <!-- FOOTER -->
@@ -680,7 +646,6 @@ body {
   </div><!-- /preview-panel -->
 </div><!-- /layout -->
 
-<!-- Off-screen PDF staging area -->
 <div id="pdf-stage"></div>
 
 <script>
@@ -724,36 +689,43 @@ $('checkIn').value   = iso(today);
 $('checkOut').value  = iso(tmrw);
 
 /* ============================================================
-   LIVE UPDATE
+   LIVE UPDATE — UPDATED with ID, auto-calculated amount,
+   and dynamic description
    ============================================================ */
 function update() {
   const name   = $('guestName').value;
   const phone  = $('guestPhone').value;
+  const gid    = $('guestId').value;
   const room   = $('roomNumber').value;
   const ci     = $('checkIn').value;
   const co     = $('checkOut').value;
-  const amt    = $('amountPaid').value;
+  const rate   = parseFloat($('ratePerNight').value) || 0;
   const method = $('paymentMethod').value;
   const issued = $('issueDate').value;
   const rno    = receiptNo(room, name, issued);
+  const n      = nights(ci, co);
+  const total  = rate * n;
 
   $('r-rno').textContent      = rno;
   $('formRno').textContent    = rno;
   $('r-date').textContent     = issued ? 'Issued: ' + fmtDate(issued) : '—';
   $('r-name').textContent     = name   || '—';
   $('r-phone').textContent    = phone  || '—';
+  $('r-id').textContent       = gid    || '—';
   $('r-room').textContent     = room   ? 'Room ' + room : '—';
   $('r-checkin').textContent  = fmtDate(ci);
   $('r-checkout').textContent = fmtDate(co);
-  const n = nights(ci, co);
   $('r-nights').textContent   = n > 0 ? n + (n === 1 ? ' Night' : ' Nights') : '—';
-  $('r-amount').textContent   = fmtAmt(amt);
+  $('r-desc').textContent     = (rate && n > 0)
+    ? `KES ${fmtAmt(rate)} × ${n} Night${n === 1 ? '' : 's'}`
+    : 'Accommodation Fee';
+  $('r-amount').textContent   = fmtAmt(total);
   $('r-pill').textContent     = method;
 }
 update();
 
 /* ============================================================
-   PDF DOWNLOAD  — all 4 fixes applied here
+   PDF DOWNLOAD
    ============================================================ */
 function downloadPDF() {
   const btn = $('dlBtn');
@@ -762,16 +734,9 @@ function downloadPDF() {
     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
   </svg> Generating…`;
 
-  /* Clone receipt node */
   const clone = $('receiptEl').cloneNode(true);
   clone.style.cssText = '';
 
-  /*
-    Inline CSS injected into the clone so html2canvas gets resolved colour
-    values (it cannot read CSS custom properties from an external sheet).
-    FIX: padding updated to 40px 48px, page-break-inside:avoid added,
-         footer margin/padding updated to match.
-  */
   const style = document.createElement('style');
   style.textContent = `
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
@@ -809,7 +774,7 @@ function downloadPDF() {
     .pay-pill{display:inline-flex;align-items:center;background:#FDF8EC;border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:5px 13px;font-size:0.76rem;font-weight:600;color:#8B6914;letter-spacing:0.04em;}
     .confirm{background:#FAFAF8;border-left:3px solid #C9A84C;border-radius:0 8px 8px 0;padding:13px 17px;margin-bottom:26px;}
     .confirm p{font-size:0.78rem;color:#6B7280;line-height:1.65;font-style:italic;}
-    .auth-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:34px;}
+    .auth-row{display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:34px;}
     .sig-line{width:160px;height:1px;background:rgba(26,26,46,0.22);margin-bottom:7px;}
     .sig-lbl{font-size:0.58rem;color:#6B7280;letter-spacing:0.12em;text-transform:uppercase;}
     .stamp-img{width:90px;height:90px;object-fit:contain;opacity:0.82;display:block;}
@@ -822,7 +787,6 @@ function downloadPDF() {
     .ft-brand-tag{font-size:0.52rem;color:rgba(255,255,255,0.28);letter-spacing:0.18em;text-transform:uppercase;margin-top:3px;}
   `;
 
-  /* Build off-screen wrapper */
   const wrap = document.createElement('div');
   wrap.style.cssText = 'width:794px;background:#fff;overflow:hidden;';
   wrap.appendChild(style);
@@ -839,20 +803,17 @@ function downloadPDF() {
       margin:   [0, 0, 0, 0],
       filename: `${rno}.pdf`,
       image:    { type: 'jpeg', quality: 0.98 },
-      /* ── FIX 3: html2canvas — drop width/allowTaint/logging, add scrollY:0 ── */
       html2canvas: {
         scale:           2,
         useCORS:         true,
         backgroundColor: '#ffffff',
         scrollY:         0,
       },
-      /* ── FIX 1: jsPDF — use mm + a4 instead of px + fixed pixel size ── */
       jsPDF: {
         unit:        'mm',
         format:      'a4',
         orientation: 'portrait',
       },
-      /* ── FIX 2: pagebreak — allow natural breaks instead of suppressing all ── */
       pagebreak: { mode: ['css', 'legacy'] },
     })
     .from(wrap)
