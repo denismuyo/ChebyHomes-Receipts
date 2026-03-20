@@ -7,9 +7,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-/* ============================================================
-   CSS VARIABLES
-   ============================================================ */
 :root {
   --blue-deep:  #1B3A6B;
   --blue-mid:   #2D5DA6;
@@ -26,9 +23,6 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ============================================================
-   APP SHELL
-   ============================================================ */
 body {
   font-family: 'DM Sans', sans-serif;
   background: #0F1B33;
@@ -39,10 +33,7 @@ body {
   align-items: center;
 }
 
-.app-header {
-  text-align: center;
-  margin-bottom: 32px;
-}
+.app-header { text-align: center; margin-bottom: 32px; }
 .app-header h1 {
   font-family: 'Cormorant Garamond', serif;
   color: #fff;
@@ -59,9 +50,6 @@ body {
 }
 .gold-dot { color: var(--gold); }
 
-/* ============================================================
-   LAYOUT — side-by-side on desktop, stacked on mobile
-   ============================================================ */
 .layout {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -70,13 +58,8 @@ body {
   max-width: 1160px;
   align-items: start;
 }
-@media (max-width: 860px) {
-  .layout { grid-template-columns: 1fr; }
-}
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
 
-/* ============================================================
-   FORM PANEL
-   ============================================================ */
 .form-panel {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
@@ -108,8 +91,7 @@ body {
   margin-bottom: 5px;
   letter-spacing: 0.06em;
 }
-.field input,
-.field select {
+.field input, .field select {
   width: 100%;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
@@ -123,8 +105,7 @@ body {
   -webkit-appearance: none;
   appearance: none;
 }
-.field input:focus,
-.field select:focus {
+.field input:focus, .field select:focus {
   border-color: var(--blue-light);
   background: rgba(91,141,217,0.1);
 }
@@ -164,9 +145,6 @@ body {
 .btn-dl:active { transform: translateY(0); }
 .btn-dl:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-/* ============================================================
-   PREVIEW PANEL
-   ============================================================ */
 .preview-panel { display: flex; flex-direction: column; gap: 12px; }
 
 .preview-lbl {
@@ -187,7 +165,6 @@ body {
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-/* horizontal scroll so receipt is never clipped on mobile */
 .receipt-scroll {
   width: 100%;
   overflow-x: auto;
@@ -196,10 +173,6 @@ body {
   box-shadow: 0 28px 72px rgba(0,0,0,0.6);
 }
 
-/* ============================================================
-   THE RECEIPT
-   Fixed 794px so preview == PDF (A4 @ 96 dpi)
-   ============================================================ */
 .receipt {
   background: var(--white);
   font-family: 'DM Sans', sans-serif;
@@ -218,7 +191,6 @@ body {
   background: linear-gradient(90deg, var(--blue-deep) 0%, var(--blue-mid) 55%, var(--gold) 100%);
 }
 
-/* --- LETTERHEAD --- */
 .lh {
   display: flex;
   align-items: flex-start;
@@ -229,62 +201,19 @@ body {
 }
 .lh-left { display: flex; align-items: flex-start; gap: 14px; }
 
-.lh-logo-img {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  flex-shrink: 0;
-  border-radius: 10px;
-  display: block;
-}
-.lh-logo-svg {
-  width: 90px;
-  height: 90px;
-  flex-shrink: 0;
-  display: none;
-}
+.lh-logo-img { width: 90px; height: 90px; object-fit: contain; flex-shrink: 0; border-radius: 10px; display: block; }
+.lh-logo-svg { width: 90px; height: 90px; flex-shrink: 0; display: none; }
 
-.lh-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.42rem;
-  font-weight: 600;
-  color: var(--blue-deep);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-.lh-tagline {
-  font-size: 0.6rem;
-  color: var(--gold);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  margin-top: 4px;
-}
-.lh-contact {
-  margin-top: 10px;
-  display: flex; flex-direction: column; gap: 2px;
-}
+.lh-name { font-family: 'Cormorant Garamond', serif; font-size: 1.42rem; font-weight: 600; color: var(--blue-deep); letter-spacing: 0.13em; text-transform: uppercase; line-height: 1; }
+.lh-tagline { font-size: 0.6rem; color: var(--gold); letter-spacing: 0.22em; text-transform: uppercase; margin-top: 4px; }
+.lh-contact { margin-top: 10px; display: flex; flex-direction: column; gap: 2px; }
 .lh-contact span { font-size: 0.7rem; color: var(--muted); }
 
 .lh-meta { text-align: right; flex-shrink: 0; }
-.lh-doc-type {
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.lh-rno {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.8rem;
-  color: var(--blue-mid);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
+.lh-doc-type { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.lh-rno { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--blue-mid); font-weight: 500; letter-spacing: 0.04em; }
 .lh-date { font-size: 0.74rem; color: var(--muted); margin-top: 5px; }
 
-/* --- DIVIDER --- */
 .divider {
   height: 1px;
   background: linear-gradient(90deg, var(--blue-deep) 0%, var(--blue-light) 45%, var(--gold) 100%);
@@ -292,148 +221,81 @@ body {
   margin-bottom: 26px;
 }
 
-/* --- SECTION LABEL --- */
 .sec-lbl {
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--blue-mid);
-  margin-bottom: 12px;
-  display: flex; align-items: center; gap: 8px;
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--blue-mid); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
 }
 .sec-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-/* --- DATA GRID --- */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 .data-item { margin-bottom: 11px; }
 .dl { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
 .dv { font-size: 0.875rem; color: var(--ink); font-weight: 500; }
 
-/* --- AMOUNT BLOCK --- */
 .amount-block {
   background: var(--blue-pale);
   border: 1px solid rgba(45,93,166,0.12);
   border-radius: 10px;
   padding: 22px 26px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
-.amount-block::before {
-  content: '';
-  position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-  background: linear-gradient(180deg, var(--blue-mid), var(--gold));
-}
+.amount-block::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--blue-mid), var(--gold)); }
 .amt-desc-lbl { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
 .amt-desc-val { font-size: 0.92rem; font-weight: 600; color: var(--blue-deep); }
 .amt-right { text-align: right; }
 .amt-currency { font-size: 0.68rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; display: block; margin-bottom: 2px; }
-.amt-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: var(--blue-deep);
-  line-height: 1;
-}
+.amt-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 600; color: var(--blue-deep); line-height: 1; }
 
-/* --- PAYMENT METHOD --- */
 .pay-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
 .pay-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 .pay-pill {
   display: inline-flex; align-items: center;
-  background: var(--gold-pale);
-  border: 1px solid rgba(201,168,76,0.3);
-  border-radius: 100px;
-  padding: 5px 13px;
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: #8B6914;
-  letter-spacing: 0.04em;
+  background: var(--gold-pale); border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 100px; padding: 5px 13px;
+  font-size: 0.76rem; font-weight: 600; color: #8B6914; letter-spacing: 0.04em;
 }
 
-/* --- CONFIRMATION NOTE --- */
-.confirm {
-  background: var(--cream);
-  border-left: 3px solid var(--gold);
-  border-radius: 0 8px 8px 0;
-  padding: 13px 17px;
-  margin-bottom: 26px;
-}
+.confirm { background: var(--cream); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 13px 17px; margin-bottom: 26px; }
 .confirm p { font-size: 0.78rem; color: var(--muted); line-height: 1.65; font-style: italic; }
 
-/* --- AUTHORIZATION --- */
-.auth-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-}
+.auth-row { display: grid; grid-template-columns: 1fr auto; align-items: end; margin-bottom: 34px; }
 
-.sig-line { width: 160px; height: 1px; background: rgba(26,26,46,0.22); margin-bottom: 7px; }
+.signature-block { display: flex; flex-direction: column; }
+.signature-img { width: 120px; height: 45px; object-fit: cover; object-position: center center; display: block; margin-bottom: 6px; filter: contrast(1.2); }
+.sig-line { width: 160px; height: 1px; background: rgba(26,26,46,0.22); margin-bottom: 7px; display: none; }
 .sig-lbl { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 
-.stamp-img {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  opacity: 0.82;
-  display: block;
-  justify-self: end;
-}
+.stamp-img { width: 90px; height: 90px; object-fit: contain; opacity: 0.82; display: block; justify-self: end; }
 
-/* --- FOOTER --- */
 .r-footer {
   background: var(--blue-deep);
   margin: 0 -48px;
   padding: 22px 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   position: relative;
 }
-.r-footer::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--blue-mid), var(--gold));
-}
+.r-footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--blue-mid), var(--gold)); }
 .ft-thanks { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.82); }
 .ft-sub { font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
 .ft-brand { text-align: right; }
 .ft-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; }
 .ft-brand-tag { font-size: 0.52rem; color: rgba(255,255,255,0.28); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 3px; }
 
-/* ============================================================
-   HIDDEN PDF STAGING AREA
-   ============================================================ */
-#pdf-stage {
-  position: fixed;
-  left: -9999px;
-  top: 0;
-  width: 794px;
-  background: #fff;
-  z-index: -999;
-  pointer-events: none;
-}
+#pdf-stage { position: fixed; left: -9999px; top: 0; width: 794px; background: #fff; z-index: -999; pointer-events: none; }
 </style>
 </head>
 <body>
 
 <div class="app-header">
-  <h1>Cheby Homes <span class="gold-dot">·</span> Receipt Generator</h1>
+  <h1>Cheby Homes <span class="gold-dot">&#183;</span> Receipt Generator</h1>
   <p>Premium Hospitality &amp; Serviced Apartments</p>
 </div>
 
 <div class="layout">
 
-  <!-- ===== FORM PANEL ===== -->
+  <!-- FORM PANEL -->
   <div class="form-panel">
 
     <div class="form-sec-title">Guest Information</div>
@@ -445,7 +307,6 @@ body {
       <label>Phone Number</label>
       <input type="text" id="guestPhone" placeholder="+254 7XX XXX XXX" oninput="update()" />
     </div>
-    <!-- ADDED: ID / Passport Field -->
     <div class="field">
       <label>ID / Passport Number</label>
       <input type="text" id="guestId" placeholder="e.g. 12345678" oninput="update()" />
@@ -468,14 +329,12 @@ body {
     </div>
 
     <div class="form-sec-title">Payment</div>
-    <!-- REPLACED: Rate per Night instead of manual amount -->
     <div class="field">
       <label>Rate per Night (KES)</label>
       <input type="number" id="ratePerNight" placeholder="e.g. 3500" oninput="update()" />
     </div>
     <div class="field">
       <label>Payment Method</label>
-      <!-- EXPANDED: Payment method options -->
       <select id="paymentMethod" onchange="update()">
         <option value="M-Pesa">M-Pesa</option>
         <option value="Cash">Cash</option>
@@ -492,7 +351,7 @@ body {
 
     <div class="rno-badge">
       <span class="rl">Receipt No.</span>
-      <span class="rv" id="formRno">CH-RM00-NAME-0000-01</span>
+      <span class="rv" id="formRno">CH-RM00-GUEST-0000-01</span>
     </div>
 
     <button class="btn-dl" id="dlBtn" onclick="downloadPDF()">
@@ -504,9 +363,9 @@ body {
       Download PDF
     </button>
 
-  </div><!-- /form-panel -->
+  </div>
 
-  <!-- ===== PREVIEW PANEL ===== -->
+  <!-- PREVIEW PANEL -->
   <div class="preview-panel">
     <div class="preview-lbl">Live Preview</div>
 
@@ -515,16 +374,10 @@ body {
 
         <div class="r-topbar"></div>
 
-        <!-- LETTERHEAD -->
         <div class="lh">
           <div class="lh-left">
-            <img
-              id="logoImg"
-              class="lh-logo-img"
-              src="logo.jpg"
-              alt="Cheby Homes Logo"
-              onerror="this.style.display='none'; document.getElementById('logoSvg').style.display='block';"
-            />
+            <img id="logoImg" class="lh-logo-img" src="logo.jpg" alt="Cheby Homes Logo"
+              onerror="this.style.display='none'; document.getElementById('logoSvg').style.display='block';" />
             <svg id="logoSvg" class="lh-logo-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="90" height="90" rx="12" fill="#1B3A6B"/>
               <polygon points="30,11 11,27 11,50 49,50 49,27" fill="#2D5DA6"/>
@@ -534,58 +387,52 @@ body {
               <rect x="38" y="31" width="8" height="7" rx="1.5" fill="white" opacity="0.55"/>
               <text x="30" y="25" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="white" font-weight="bold">CH</text>
             </svg>
-
             <div>
               <div class="lh-name">Cheby Homes</div>
               <div class="lh-tagline">Convenience &bull; Elegance</div>
               <div class="lh-contact">
                 <span>&#128205; Minah Heights, Westlands, Nairobi</span>
                 <span>&#128222; +254 1188 55239</span>
-                <span>&#9993; chebyhomes@gmail.com</span>
+                <span>&#9993; chebyhomes&#64;gmail.com</span>
               </div>
             </div>
           </div>
-
           <div class="lh-meta">
             <div class="lh-doc-type">Official Receipt</div>
-            <div class="lh-rno" id="r-rno">CH-RM00-NAME-0000-01</div>
-            <div class="lh-date" id="r-date">—</div>
+            <div class="lh-rno" id="r-rno">CH-RM00-GUEST-0000-01</div>
+            <div class="lh-date" id="r-date">&#8212;</div>
           </div>
         </div>
 
         <div class="divider"></div>
 
-        <!-- GUEST + BOOKING -->
         <div class="two-col">
           <div>
             <div class="sec-lbl">Guest Details</div>
-            <div class="data-item"><div class="dl">Full Name</div><div class="dv" id="r-name">—</div></div>
-            <div class="data-item"><div class="dl">Phone</div><div class="dv" id="r-phone">—</div></div>
-            <!-- ADDED: ID / Passport display in receipt -->
-            <div class="data-item"><div class="dl">ID / Passport</div><div class="dv" id="r-id">—</div></div>
+            <div class="data-item"><div class="dl">Full Name</div><div class="dv" id="r-name">&#8212;</div></div>
+            <div class="data-item"><div class="dl">Phone</div><div class="dv" id="r-phone">&#8212;</div></div>
+            <div class="data-item"><div class="dl">ID / Passport</div><div class="dv" id="r-id">&#8212;</div></div>
           </div>
           <div>
             <div class="sec-lbl">Booking Details</div>
-            <div class="data-item"><div class="dl">Property</div><div class="dv">Minah Heights – Studio Apartment</div></div>
-            <div class="data-item"><div class="dl">Room</div><div class="dv" id="r-room">—</div></div>
+            <div class="data-item"><div class="dl">Property</div><div class="dv">Minah Heights &#8211; Studio Apartment</div></div>
+            <div class="data-item"><div class="dl">Room</div><div class="dv" id="r-room">&#8212;</div></div>
           </div>
         </div>
 
         <div class="two-col">
-          <div class="data-item"><div class="dl">Check-In</div><div class="dv" id="r-checkin">—</div></div>
-          <div class="data-item"><div class="dl">Check-Out</div><div class="dv" id="r-checkout">—</div></div>
+          <div class="data-item"><div class="dl">Check-In</div><div class="dv" id="r-checkin">&#8212;</div></div>
+          <div class="data-item"><div class="dl">Check-Out</div><div class="dv" id="r-checkout">&#8212;</div></div>
         </div>
 
         <div class="data-item" style="margin-bottom:20px;">
           <div class="dl">Number of Nights</div>
-          <div class="dv" id="r-nights">—</div>
+          <div class="dv" id="r-nights">&#8212;</div>
         </div>
 
-        <!-- AMOUNT — description now auto-calculated -->
         <div class="amount-block">
           <div>
             <div class="amt-desc-lbl">Description</div>
-            <!-- UPDATED: Dynamic description -->
             <div class="amt-desc-val" id="r-desc">Accommodation Fee</div>
           </div>
           <div class="amt-right">
@@ -594,42 +441,28 @@ body {
           </div>
         </div>
 
-        <!-- PAYMENT METHOD -->
         <div class="pay-row">
           <span class="pay-lbl">Paid via</span>
           <div class="pay-pill" id="r-pill">M-Pesa</div>
         </div>
 
-        <!-- CONFIRMATION NOTE -->
         <div class="confirm">
-          <p>This receipt confirms your booking at <strong>Cheby Homes – Minah Heights, Westlands</strong>. Please retain this document for your records. For queries, contact us at +254 1188 55239.</p>
+          <p>This receipt confirms your booking at <strong>Cheby Homes &#8211; Minah Heights, Westlands</strong>. Please retain this document for your records. For queries, contact us at +254 1188 55239.</p>
         </div>
 
-        <!-- AUTHORIZATION -->
         <div class="auth-row">
           <div>
             <div class="signature-block">
-              <img
-                src="signature.png"
-                alt="Authorized Signature"
-                class="signature-img"
-                onerror="this.style.display='none'; document.getElementById('sigLine').style.display='block';"
-              />
+              <img src="signature.png" alt="Authorized Signature" class="signature-img"
+                onerror="this.style.display='none'; document.getElementById('sigLine').style.display='block';" />
               <div id="sigLine" class="sig-line"></div>
               <div class="sig-lbl">Authorized Signature</div>
             </div>
           </div>
-
-          <img
-            id="stampImg"
-            class="stamp-img"
-            src="stamp.png"
-            alt="Official Stamp"
-            onerror="this.style.display='none'; document.getElementById('stampFb').style.display='flex';"
-          />
+          <img id="stampImg" class="stamp-img" src="stamp.png" alt="Official Stamp"
+            onerror="this.style.display='none';" />
         </div>
 
-        <!-- FOOTER -->
         <div class="r-footer">
           <div>
             <div class="ft-thanks">Thank you for choosing Cheby Homes.</div>
@@ -641,194 +474,174 @@ body {
           </div>
         </div>
 
-      </div><!-- /receipt -->
-    </div><!-- /receipt-scroll -->
-  </div><!-- /preview-panel -->
-</div><!-- /layout -->
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="pdf-stage"></div>
 
 <script>
-/* ============================================================
-   UTILITIES
-   ============================================================ */
-const $  = id => document.getElementById(id);
-const p2 = n  => String(n).padStart(2, '0');
+var seq = 1;
+
+function $(id) { return document.getElementById(id); }
+function p2(n) { return String(n).padStart(2, '0'); }
 
 function fmtDate(s) {
-  if (!s) return '—';
-  return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+  if (!s) return '\u2014';
+  return new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
 function nights(ci, co) {
   if (!ci || !co) return 0;
-  const n = Math.round((new Date(co) - new Date(ci)) / 86400000);
+  var n = Math.round((new Date(co) - new Date(ci)) / 86400000);
   return n > 0 ? n : 0;
 }
 
 function receiptNo(room, name, date) {
-  const rm  = room ? 'RM' + room.replace(/\s/g,'').toUpperCase() : 'RM00';
-  const pts = name ? name.trim().split(/\s+/) : [];
-  const sur = (pts.length > 1 ? pts[pts.length-1] : (pts[0]||'GUEST')).toUpperCase().slice(0,8);
-  let mmdd  = '0000';
-  if (date) { const d = new Date(date+'T00:00:00'); mmdd = p2(d.getMonth()+1) + p2(d.getDate()); }
-  return `CH-${rm}-${sur}-${mmdd}-${p2(seq)}`;
+  var rm  = room ? 'RM' + room.replace(/\s/g, '').toUpperCase() : 'RM00';
+  var pts = name ? name.trim().split(/\s+/) : [];
+  var sur = (pts.length > 1 ? pts[pts.length - 1] : (pts[0] || 'GUEST')).toUpperCase().slice(0, 8);
+  var mmdd = '0000';
+  if (date) {
+    var d = new Date(date + 'T00:00:00');
+    mmdd = p2(d.getMonth() + 1) + p2(d.getDate());
+  }
+  return 'CH-' + rm + '-' + sur + '-' + mmdd + '-' + p2(seq);
 }
 
 function fmtAmt(v) { return v ? Number(v).toLocaleString('en-KE') : '0'; }
 
-/* ============================================================
-   DEFAULTS
-   ============================================================ */
-let seq = 1;
-const today = new Date();
-const iso   = d => d.toISOString().split('T')[0];
-const tmrw  = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
+function iso(d) { return d.toISOString().split('T')[0]; }
+var today = new Date();
+var tmrw  = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
 $('issueDate').value = iso(today);
 $('checkIn').value   = iso(today);
 $('checkOut').value  = iso(tmrw);
 
-/* ============================================================
-   LIVE UPDATE — UPDATED with ID, auto-calculated amount,
-   and dynamic description
-   ============================================================ */
 function update() {
-  const name   = $('guestName').value;
-  const phone  = $('guestPhone').value;
-  const gid    = $('guestId').value;
-  const room   = $('roomNumber').value;
-  const ci     = $('checkIn').value;
-  const co     = $('checkOut').value;
-  const rate   = parseFloat($('ratePerNight').value) || 0;
-  const method = $('paymentMethod').value;
-  const issued = $('issueDate').value;
-  const rno    = receiptNo(room, name, issued);
-  const n      = nights(ci, co);
-  const total  = rate * n;
+  var name   = $('guestName').value;
+  var phone  = $('guestPhone').value;
+  var gid    = $('guestId').value;
+  var room   = $('roomNumber').value;
+  var ci     = $('checkIn').value;
+  var co     = $('checkOut').value;
+  var rate   = parseFloat($('ratePerNight').value) || 0;
+  var method = $('paymentMethod').value;
+  var issued = $('issueDate').value;
+  var rno    = receiptNo(room, name, issued);
+  var n      = nights(ci, co);
+  var total  = rate * n;
 
   $('r-rno').textContent      = rno;
   $('formRno').textContent    = rno;
-  $('r-date').textContent     = issued ? 'Issued: ' + fmtDate(issued) : '—';
-  $('r-name').textContent     = name   || '—';
-  $('r-phone').textContent    = phone  || '—';
-  $('r-id').textContent       = gid    || '—';
-  $('r-room').textContent     = room   ? 'Room ' + room : '—';
+  $('r-date').textContent     = issued ? 'Issued: ' + fmtDate(issued) : '\u2014';
+  $('r-name').textContent     = name   || '\u2014';
+  $('r-phone').textContent    = phone  || '\u2014';
+  $('r-id').textContent       = gid    || '\u2014';
+  $('r-room').textContent     = room   ? 'Room ' + room : '\u2014';
   $('r-checkin').textContent  = fmtDate(ci);
   $('r-checkout').textContent = fmtDate(co);
-  $('r-nights').textContent   = n > 0 ? n + (n === 1 ? ' Night' : ' Nights') : '—';
+  $('r-nights').textContent   = n > 0 ? n + (n === 1 ? ' Night' : ' Nights') : '\u2014';
   $('r-desc').textContent     = (rate && n > 0)
-    ? `KES ${fmtAmt(rate)} × ${n} Night${n === 1 ? '' : 's'}`
+    ? 'KES ' + fmtAmt(rate) + ' \u00d7 ' + n + ' Night' + (n === 1 ? '' : 's')
     : 'Accommodation Fee';
   $('r-amount').textContent   = fmtAmt(total);
   $('r-pill').textContent     = method;
 }
 update();
 
-/* ============================================================
-   PDF DOWNLOAD
-   ============================================================ */
 function downloadPDF() {
-  const btn = $('dlBtn');
+  var btn = $('dlBtn');
   btn.disabled = true;
-  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-  </svg> Generating…`;
+  btn.textContent = 'Generating\u2026';
 
-  const clone = $('receiptEl').cloneNode(true);
+  var clone = $('receiptEl').cloneNode(true);
   clone.style.cssText = '';
 
-  const style = document.createElement('style');
-  style.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0;}
-    .receipt{background:#fff;font-family:'DM Sans',sans-serif;color:#1A1A2E;width:794px;min-width:794px;padding:40px 48px 0;position:relative;page-break-inside:avoid;}
-    .r-topbar{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#1B3A6B 0%,#2D5DA6 55%,#C9A84C 100%);}
-    .lh{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:30px;padding-top:10px;}
-    .lh-left{display:flex;align-items:flex-start;gap:14px;}
-    .lh-logo-img{width:90px;height:90px;object-fit:contain;flex-shrink:0;border-radius:10px;display:block;}
-    .lh-logo-svg{width:60px;height:60px;flex-shrink:0;}
-    .lh-name{font-family:'Cormorant Garamond',serif;font-size:1.42rem;font-weight:600;color:#1B3A6B;letter-spacing:0.13em;text-transform:uppercase;line-height:1;}
-    .lh-tagline{font-size:0.6rem;color:#C9A84C;letter-spacing:0.22em;text-transform:uppercase;margin-top:4px;}
-    .lh-contact{margin-top:10px;display:flex;flex-direction:column;gap:2px;}
-    .lh-contact span{font-size:0.7rem;color:#6B7280;}
-    .lh-meta{text-align:right;flex-shrink:0;}
-    .lh-doc-type{font-size:0.55rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#6B7280;margin-bottom:6px;}
-    .lh-rno{font-family:'DM Mono',monospace;font-size:0.8rem;color:#2D5DA6;font-weight:500;letter-spacing:0.04em;}
-    .lh-date{font-size:0.74rem;color:#6B7280;margin-top:5px;}
-    .divider{height:1px;background:linear-gradient(90deg,#1B3A6B 0%,#5B8DD9 45%,#C9A84C 100%);opacity:0.28;margin-bottom:26px;}
-    .sec-lbl{font-size:0.55rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#2D5DA6;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-    .sec-lbl::after{content:'';flex:1;height:1px;background:#DDE3EF;}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
-    .data-item{margin-bottom:11px;}
-    .dl{font-size:0.62rem;color:#6B7280;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px;}
-    .dv{font-size:0.875rem;color:#1A1A2E;font-weight:500;}
-    .amount-block{background:#EBF1FB;border:1px solid rgba(45,93,166,0.12);border-radius:10px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative;overflow:hidden;}
-    .amount-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#2D5DA6,#C9A84C);}
-    .amt-desc-lbl{font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#6B7280;margin-bottom:3px;}
-    .amt-desc-val{font-size:0.92rem;font-weight:600;color:#1B3A6B;}
-    .amt-right{text-align:right;}
-    .amt-currency{font-size:0.68rem;font-weight:600;color:#6B7280;letter-spacing:0.1em;display:block;margin-bottom:2px;}
-    .amt-value{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:#1B3A6B;line-height:1;}
-    .pay-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
-    .pay-lbl{font-size:0.6rem;color:#6B7280;letter-spacing:0.12em;text-transform:uppercase;}
-    .pay-pill{display:inline-flex;align-items:center;background:#FDF8EC;border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:5px 13px;font-size:0.76rem;font-weight:600;color:#8B6914;letter-spacing:0.04em;}
-    .confirm{background:#FAFAF8;border-left:3px solid #C9A84C;border-radius:0 8px 8px 0;padding:13px 17px;margin-bottom:26px;}
-    .confirm p{font-size:0.78rem;color:#6B7280;line-height:1.65;font-style:italic;}
-    .auth-row{display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:34px;}
-    .sig-line{width:160px;height:1px;background:rgba(26,26,46,0.22);margin-bottom:7px;}
-    .sig-lbl{font-size:0.58rem;color:#6B7280;letter-spacing:0.12em;text-transform:uppercase;}
-    .stamp-img{width:90px;height:90px;object-fit:contain;opacity:0.82;display:block;}
-    .r-footer{background:#1B3A6B;margin:0 -48px;padding:22px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;}
-    .r-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#2D5DA6,#C9A84C);}
-    .ft-thanks{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(255,255,255,0.82);}
-    .ft-sub{font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
-    .ft-brand{text-align:right;}
-    .ft-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:#C9A84C;letter-spacing:0.16em;text-transform:uppercase;}
-    .ft-brand-tag{font-size:0.52rem;color:rgba(255,255,255,0.28);letter-spacing:0.18em;text-transform:uppercase;margin-top:3px;}
-  `;
+  var css = [
+    "@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');",
+    "*{box-sizing:border-box;margin:0;padding:0;}",
+    ".receipt{background:#fff;font-family:'DM Sans',sans-serif;color:#1A1A2E;width:794px;min-width:794px;padding:40px 48px 0;position:relative;page-break-inside:avoid;}",
+    ".r-topbar{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#1B3A6B 0%,#2D5DA6 55%,#C9A84C 100%);}",
+    ".lh{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:30px;padding-top:10px;}",
+    ".lh-left{display:flex;align-items:flex-start;gap:14px;}",
+    ".lh-logo-img{width:90px;height:90px;object-fit:contain;flex-shrink:0;border-radius:10px;display:block;}",
+    ".lh-logo-svg{width:60px;height:60px;flex-shrink:0;}",
+    ".lh-name{font-family:'Cormorant Garamond',serif;font-size:1.42rem;font-weight:600;color:#1B3A6B;letter-spacing:0.13em;text-transform:uppercase;line-height:1;}",
+    ".lh-tagline{font-size:0.6rem;color:#C9A84C;letter-spacing:0.22em;text-transform:uppercase;margin-top:4px;}",
+    ".lh-contact{margin-top:10px;display:flex;flex-direction:column;gap:2px;}",
+    ".lh-contact span{font-size:0.7rem;color:#6B7280;}",
+    ".lh-meta{text-align:right;flex-shrink:0;}",
+    ".lh-doc-type{font-size:0.55rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#6B7280;margin-bottom:6px;}",
+    ".lh-rno{font-family:'DM Mono',monospace;font-size:0.8rem;color:#2D5DA6;font-weight:500;letter-spacing:0.04em;}",
+    ".lh-date{font-size:0.74rem;color:#6B7280;margin-top:5px;}",
+    ".divider{height:1px;background:linear-gradient(90deg,#1B3A6B 0%,#5B8DD9 45%,#C9A84C 100%);opacity:0.28;margin-bottom:26px;}",
+    ".sec-lbl{font-size:0.55rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:#2D5DA6;margin-bottom:12px;display:flex;align-items:center;gap:8px;}",
+    ".sec-lbl::after{content:'';flex:1;height:1px;background:#DDE3EF;}",
+    ".two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}",
+    ".data-item{margin-bottom:11px;}",
+    ".dl{font-size:0.62rem;color:#6B7280;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px;}",
+    ".dv{font-size:0.875rem;color:#1A1A2E;font-weight:500;}",
+    ".amount-block{background:#EBF1FB;border:1px solid rgba(45,93,166,0.12);border-radius:10px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;position:relative;overflow:hidden;}",
+    ".amount-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#2D5DA6,#C9A84C);}",
+    ".amt-desc-lbl{font-size:0.58rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#6B7280;margin-bottom:3px;}",
+    ".amt-desc-val{font-size:0.92rem;font-weight:600;color:#1B3A6B;}",
+    ".amt-right{text-align:right;}",
+    ".amt-currency{font-size:0.68rem;font-weight:600;color:#6B7280;letter-spacing:0.1em;display:block;margin-bottom:2px;}",
+    ".amt-value{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:#1B3A6B;line-height:1;}",
+    ".pay-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}",
+    ".pay-lbl{font-size:0.6rem;color:#6B7280;letter-spacing:0.12em;text-transform:uppercase;}",
+    ".pay-pill{display:inline-flex;align-items:center;background:#FDF8EC;border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:5px 13px;font-size:0.76rem;font-weight:600;color:#8B6914;letter-spacing:0.04em;}",
+    ".confirm{background:#FAFAF8;border-left:3px solid #C9A84C;border-radius:0 8px 8px 0;padding:13px 17px;margin-bottom:26px;}",
+    ".confirm p{font-size:0.78rem;color:#6B7280;line-height:1.65;font-style:italic;}",
+    ".auth-row{display:grid;grid-template-columns:1fr auto;align-items:end;margin-bottom:34px;}",
+    ".signature-block{display:flex;flex-direction:column;}",
+    ".signature-img{width:120px;height:45px;object-fit:cover;object-position:center center;display:block;margin-bottom:6px;filter:contrast(1.2);}",
+    ".sig-line{width:160px;height:1px;background:rgba(26,26,46,0.22);margin-bottom:7px;display:none;}",
+    ".sig-lbl{font-size:0.58rem;color:#6B7280;letter-spacing:0.12em;text-transform:uppercase;}",
+    ".stamp-img{width:90px;height:90px;object-fit:contain;opacity:0.82;display:block;}",
+    ".r-footer{background:#1B3A6B;margin:0 -48px;padding:22px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;}",
+    ".r-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#2D5DA6,#C9A84C);}",
+    ".ft-thanks{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(255,255,255,0.82);}",
+    ".ft-sub{font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}",
+    ".ft-brand{text-align:right;}",
+    ".ft-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:#C9A84C;letter-spacing:0.16em;text-transform:uppercase;}",
+    ".ft-brand-tag{font-size:0.52rem;color:rgba(255,255,255,0.28);letter-spacing:0.18em;text-transform:uppercase;margin-top:3px;}"
+  ].join('\n');
 
-  const wrap = document.createElement('div');
+  var styleEl = document.createElement('style');
+  styleEl.textContent = css;
+
+  var wrap = document.createElement('div');
   wrap.style.cssText = 'width:794px;background:#fff;overflow:hidden;';
-  wrap.appendChild(style);
+  wrap.appendChild(styleEl);
   wrap.appendChild(clone);
 
-  const stage = $('pdf-stage');
+  var stage = $('pdf-stage');
   stage.innerHTML = '';
   stage.appendChild(wrap);
 
-  const rno = $('r-rno').textContent;
+  var rno = $('r-rno').textContent;
 
   html2pdf()
     .set({
-      margin:   [0, 0, 0, 0],
-      filename: `${rno}.pdf`,
-      image:    { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale:           2,
-        useCORS:         true,
-        backgroundColor: '#ffffff',
-        scrollY:         0,
-      },
-      jsPDF: {
-        unit:        'mm',
-        format:      'a4',
-        orientation: 'portrait',
-      },
-      pagebreak: { mode: ['css', 'legacy'] },
+      margin:      [0, 0, 0, 0],
+      filename:    rno + '.pdf',
+      image:       { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0 },
+      jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:   { mode: ['css', 'legacy'] }
     })
     .from(wrap)
     .save()
-    .then(() => {
+    .then(function() {
       stage.innerHTML = '';
       seq++;
       btn.disabled = false;
-      btn.innerHTML = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg> Download PDF`;
+      btn.innerHTML = '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF';
     })
-    .catch(err => {
+    .catch(function(err) {
       console.error(err);
       stage.innerHTML = '';
       btn.disabled = false;
