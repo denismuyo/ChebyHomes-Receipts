@@ -247,6 +247,7 @@ body {
 .amt-right { text-align: right; }
 .amt-currency { font-size: 0.68rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; display: block; margin-bottom: 2px; }
 .amt-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 600; color: var(--blue-deep); line-height: 1; }
+.amt-kes-equiv { font-size: 0.72rem; color: var(--muted); margin-top: 5px; letter-spacing: 0.04em; font-family: 'DM Sans', sans-serif; }
 
 .pay-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
 .pay-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
@@ -330,8 +331,25 @@ body {
 
     <div class="form-sec-title">Payment</div>
     <div class="field">
-      <label>Rate per Night (KES)</label>
+      <label>Rate per Night</label>
       <input type="number" id="ratePerNight" placeholder="e.g. 3500" oninput="update()" />
+    </div>
+    <div class="field">
+      <label>Currency</label>
+      <select id="currency" onchange="update()">
+        <option value="KES">KES – Kenyan Shilling</option>
+        <option value="USD">USD – US Dollar</option>
+        <option value="EUR">EUR – Euro</option>
+        <option value="GBP">GBP – British Pound</option>
+        <option value="UGX">UGX – Ugandan Shilling</option>
+        <option value="TZS">TZS – Tanzanian Shilling</option>
+        <option value="AED">AED – UAE Dirham</option>
+        <option value="INR">INR – Indian Rupee</option>
+      </select>
+    </div>
+    <div class="field" id="exchangeRateField" style="display:none;">
+      <label>Exchange Rate (1 unit → KES)</label>
+      <input type="number" id="exchangeRate" placeholder="e.g. 129.50" oninput="update()" />
     </div>
     <div class="field">
       <label>Payment Method</label>
@@ -436,8 +454,9 @@ body {
             <div class="amt-desc-val" id="r-desc">Accommodation Fee</div>
           </div>
           <div class="amt-right">
-            <span class="amt-currency">KES</span>
+            <span class="amt-currency" id="r-currency-lbl">KES</span>
             <div class="amt-value" id="r-amount">0</div>
+            <div class="amt-kes-equiv" id="r-amount-kes"></div>
           </div>
         </div>
 
@@ -520,34 +539,62 @@ $('checkIn').value   = iso(today);
 $('checkOut').value  = iso(tmrw);
 
 function update() {
-  var name   = $('guestName').value;
-  var phone  = $('guestPhone').value;
-  var gid    = $('guestId').value;
-  var room   = $('roomNumber').value;
-  var ci     = $('checkIn').value;
-  var co     = $('checkOut').value;
-  var rate   = parseFloat($('ratePerNight').value) || 0;
-  var method = $('paymentMethod').value;
-  var issued = $('issueDate').value;
-  var rno    = receiptNo(room, name, issued);
-  var n      = nights(ci, co);
-  var total  = rate * n;
+  var name     = $('guestName').value;
+  var phone    = $('guestPhone').value;
+  var gid      = $('guestId').value;
+  var room     = $('roomNumber').value;
+  var ci       = $('checkIn').value;
+  var co       = $('checkOut').value;
+  var rate     = parseFloat($('ratePerNight').value) || 0;
+  var method   = $('paymentMethod').value;
+  var issued   = $('issueDate').value;
+  var currency = $('currency').value;
+  var rateKES  = parseFloat($('exchangeRate').value) || 1;
+  var rno      = receiptNo(room, name, issued);
+  var n        = nights(ci, co);
+
+  // Show/hide exchange rate field
+  var exField = $('exchangeRateField');
+  if (currency === 'KES') {
+    exField.style.display = 'none';
+    rateKES = 1;
+  } else {
+    exField.style.display = 'block';
+  }
+
+  var totalForeign = rate * n;
+  var totalKES     = totalForeign * rateKES;
 
   $('r-rno').textContent      = rno;
   $('formRno').textContent    = rno;
   $('r-date').textContent     = issued ? 'Issued: ' + fmtDate(issued) : '\u2014';
-  $('r-name').textContent     = name   || '\u2014';
-  $('r-phone').textContent    = phone  || '\u2014';
-  $('r-id').textContent       = gid    || '\u2014';
-  $('r-room').textContent     = room   ? 'Room ' + room : '\u2014';
+  $('r-name').textContent     = name  || '\u2014';
+  $('r-phone').textContent    = phone || '\u2014';
+  $('r-id').textContent       = gid   || '\u2014';
+  $('r-room').textContent     = room  ? 'Room ' + room : '\u2014';
   $('r-checkin').textContent  = fmtDate(ci);
   $('r-checkout').textContent = fmtDate(co);
   $('r-nights').textContent   = n > 0 ? n + (n === 1 ? ' Night' : ' Nights') : '\u2014';
-  $('r-desc').textContent     = (rate && n > 0)
-    ? 'KES ' + fmtAmt(rate) + ' \u00d7 ' + n + ' Night' + (n === 1 ? '' : 's')
+
+  $('r-desc').textContent = (rate && n > 0)
+    ? currency + ' ' + fmtAmt(rate) + ' \u00d7 ' + n + ' Night' + (n === 1 ? '' : 's')
     : 'Accommodation Fee';
-  $('r-amount').textContent   = fmtAmt(total);
-  $('r-pill').textContent     = method;
+
+  // Update currency label above amount
+  $('r-currency-lbl').textContent = currency;
+
+  // Main amount display
+  $('r-amount').textContent = currency + ' ' + fmtAmt(totalForeign);
+
+  // KES equivalent line (hidden when currency is already KES)
+  var kesEl = $('r-amount-kes');
+  if (currency === 'KES') {
+    kesEl.textContent = '';
+  } else {
+    kesEl.textContent = '\u2248 KES ' + Number(totalKES.toFixed(0)).toLocaleString('en-KE');
+  }
+
+  $('r-pill').textContent = method;
 }
 update();
 
@@ -590,6 +637,7 @@ function downloadPDF() {
     ".amt-right{text-align:right;}",
     ".amt-currency{font-size:0.68rem;font-weight:600;color:#6B7280;letter-spacing:0.1em;display:block;margin-bottom:2px;}",
     ".amt-value{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:#1B3A6B;line-height:1;}",
+    ".amt-kes-equiv{font-size:0.72rem;color:#6B7280;margin-top:5px;letter-spacing:0.04em;font-family:'DM Sans',sans-serif;}",
     ".pay-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}",
     ".pay-lbl{font-size:0.6rem;color:#6B7280;letter-spacing:0.12em;text-transform:uppercase;}",
     ".pay-pill{display:inline-flex;align-items:center;background:#FDF8EC;border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:5px 13px;font-size:0.76rem;font-weight:600;color:#8B6914;letter-spacing:0.04em;}",
