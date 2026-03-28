@@ -580,13 +580,9 @@ function update() {
     ? currency + ' ' + fmtAmt(rate) + ' \u00d7 ' + n + ' Night' + (n === 1 ? '' : 's')
     : 'Accommodation Fee';
 
-  // Update currency label above amount
   $('r-currency-lbl').textContent = currency;
-
-  // Main amount display
   $('r-amount').textContent = currency + ' ' + fmtAmt(totalForeign);
 
-  // KES equivalent line (hidden when currency is already KES)
   var kesEl = $('r-amount-kes');
   if (currency === 'KES') {
     kesEl.textContent = '';
@@ -595,8 +591,41 @@ function update() {
   }
 
   $('r-pill').textContent = method;
+
+  // AUTO-SAVE to localStorage
+  localStorage.setItem("receiptData", JSON.stringify({
+    guestName:     $('guestName').value,
+    guestPhone:    $('guestPhone').value,
+    guestId:       $('guestId') ? $('guestId').value : "",
+    roomNumber:    $('roomNumber').value,
+    checkIn:       $('checkIn').value,
+    checkOut:      $('checkOut').value,
+    ratePerNight:  $('ratePerNight') ? $('ratePerNight').value : "",
+    paymentMethod: $('paymentMethod').value,
+    currency:      $('currency') ? $('currency').value : "KES",
+    exchangeRate:  $('exchangeRate') ? $('exchangeRate').value : "",
+    issueDate:     $('issueDate') ? $('issueDate').value : ""
+  }));
 }
-update();
+
+// RESTORE DATA ON PAGE LOAD
+window.addEventListener("load", function () {
+  var saved = localStorage.getItem("receiptData");
+  if (!saved) { update(); return; }
+  var data = JSON.parse(saved);
+  if ($('guestName'))    $('guestName').value     = data.guestName    || "";
+  if ($('guestPhone'))   $('guestPhone').value    = data.guestPhone   || "";
+  if ($('guestId'))      $('guestId').value       = data.guestId      || "";
+  if ($('roomNumber'))   $('roomNumber').value    = data.roomNumber   || "";
+  if ($('checkIn'))      $('checkIn').value       = data.checkIn      || "";
+  if ($('checkOut'))     $('checkOut').value      = data.checkOut     || "";
+  if ($('ratePerNight')) $('ratePerNight').value  = data.ratePerNight || "";
+  if ($('paymentMethod'))$('paymentMethod').value = data.paymentMethod|| "";
+  if ($('currency'))     $('currency').value      = data.currency     || "KES";
+  if ($('exchangeRate')) $('exchangeRate').value  = data.exchangeRate || "";
+  if ($('issueDate'))    $('issueDate').value     = data.issueDate    || "";
+  update();
+});
 
 function downloadPDF() {
   var btn = $('dlBtn');
@@ -688,6 +717,8 @@ function downloadPDF() {
       seq++;
       btn.disabled = false;
       btn.innerHTML = '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF';
+      // CLEAR saved data after successful download
+      localStorage.removeItem("receiptData");
     })
     .catch(function(err) {
       console.error(err);
